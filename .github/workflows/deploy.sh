@@ -6,6 +6,9 @@
 set -e
 set -o pipefail
 
+
+mvn verify package deploy
+
 echo "going to deploy..."
 export PROJECT_ID=${GCLOUD_PROJECT}
 

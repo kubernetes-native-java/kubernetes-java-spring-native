@@ -45,6 +45,7 @@ jobs:
           gcloud --quiet auth configure-docker
           gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone "$GCLOUD_ZONE" --project $GCLOUD_PROJECT
 
+
       - name: Deploy API
         run: |
           cd $GITHUB_WORKSPACE
