@@ -4,7 +4,6 @@ name: Deploy
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   GCLOUD_ZONE: ${{ secrets.GCLOUD_ZONE }}
-  GCLOUD_SA_KEY: ${{ secrets.GCLOUD_SA_KEY }}
   GCLOUD_PROJECT: ${{ secrets.GCLOUD_PROJECT  }}
   GKE_CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME  }}
 
