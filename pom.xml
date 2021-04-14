@@ -9,6 +9,7 @@
         <version>2.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <packaging>jar</packaging>
     <groupId>booternetes</groupId>
     <artifactId>spring-native-kubernetes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
