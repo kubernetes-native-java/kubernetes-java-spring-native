@@ -48,4 +48,4 @@ jobs:
       - name: Deploy API
         run: |
           cd $GITHUB_WORKSPACE
-          ./github/workflows/deploy.sh
+          .github/workflows/deploy.sh
