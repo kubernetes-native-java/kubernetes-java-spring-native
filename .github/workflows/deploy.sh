@@ -2,3 +2,4 @@
 
 echo "going to deploy..."
 
+kubectl get pods
