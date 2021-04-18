@@ -13,8 +13,7 @@
     <groupId>booternetes</groupId>
     <artifactId>spring-native-kubernetes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-native-kubernetes</name>
-    <description>Demo project for Spring Boot</description>
+
     <properties>
         <artifactory-maven-plugin.version>2.4.0
         </artifactory-maven-plugin.version>

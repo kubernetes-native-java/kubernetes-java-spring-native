@@ -47,7 +47,6 @@ jobs:
           gcloud --quiet auth configure-docker
           gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone "$GCLOUD_ZONE" --project $GCLOUD_PROJECT
 
-      - name: Deploy API
+      - name: Deploy
         run: |
-          cd $GITHUB_WORKSPACE
-          .github/workflows/deploy.sh
+          cd $GITHUB_WORKSPACE && mvn -Dspring.profiles.active=ci verify deploy && echo "Deployed the jar to Artifactory."
