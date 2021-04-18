@@ -49,4 +49,6 @@ jobs:
 
       - name: Deploy
         run: |
-          cd $GITHUB_WORKSPACE && mvn -Dspring.profiles.active=ci verify deploy && echo "Deployed the jar to Artifactory."
+          cd $GITHUB_WORKSPACE && \
+            mvn -Dspring.profiles.active=ci verify deploy && \
+            echo "Deployed the jar to Artifactory."
