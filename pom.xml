@@ -15,18 +15,10 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <artifactory-maven-plugin.version>2.4.0
-        </artifactory-maven-plugin.version>
-        <!--
-                <java.version>11</java.version>
-                <spring-native.version>0.9.1</spring-native.version>
-        -->
-
-        <!--        -->
+        <artifactory-maven-plugin.version>2.4.0</artifactory-maven-plugin.version>
         <java.version>11</java.version>
         <repackage.classifier/>
         <spring-native.version>0.10.3</spring-native.version>
-
     </properties>
     <dependencies>
         <dependency>
