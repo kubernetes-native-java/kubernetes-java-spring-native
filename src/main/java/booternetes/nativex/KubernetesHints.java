@@ -29,7 +29,6 @@ import java.util.stream.Stream;
  * @author Josh Long
  * @author Dave Syer
  */
-
 @TypeHint(typeNames = { "io.kubernetes.client.util.Watch$Response" }, access = AccessBits.ALL)
 @TypeHint(typeNames = { "io.kubernetes.client.util.generic.GenericKubernetesApi$StatusPatch" }, access = AccessBits.ALL)
 @TypeHint(typeNames = { "io.kubernetes.client.custom.Quantity$QuantityAdapter" }, access = AccessBits.ALL)
