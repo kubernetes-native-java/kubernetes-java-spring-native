@@ -42,6 +42,7 @@ public class KubernetesHints implements NativeConfiguration {
 	@Override
 	public List<HintDeclaration> computeHints(TypeSystem typeSystem) {
 
+		System.out.println("beginning the contribution of the Kubernetes hints.");
 		List<String> models = typeSystem.findTypesAnnotated("Lio/swagger/annotations/ApiModel;", true);
 		List<String> adapters = typeSystem.findTypesAnnotated("Lcom/google/gson/annotations/JsonAdapter;", true);
 		List<String> rl = new ArrayList<String>();
