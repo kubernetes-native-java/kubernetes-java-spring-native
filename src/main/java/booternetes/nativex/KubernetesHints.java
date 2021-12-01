@@ -1,17 +1,21 @@
 package booternetes.nativex;
 
+import lombok.SneakyThrows;
 import org.springframework.nativex.hint.AccessBits;
+import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 import org.springframework.nativex.type.AccessDescriptor;
 import org.springframework.nativex.type.HintDeclaration;
 import org.springframework.nativex.type.NativeConfiguration;
 import org.springframework.nativex.type.TypeSystem;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * These hints are inspired by <a href="https://github.com/scratches/spring-controller">
@@ -29,44 +33,43 @@ import java.util.stream.Stream;
  * @author Josh Long
  * @author Dave Syer
  */
-@TypeHint(typeNames = { "io.kubernetes.client.util.Watch$Response" }, access = AccessBits.ALL)
-@TypeHint(typeNames = { "io.kubernetes.client.util.generic.GenericKubernetesApi$StatusPatch" }, access = AccessBits.ALL)
-@TypeHint(typeNames = { "io.kubernetes.client.custom.Quantity$QuantityAdapter" }, access = AccessBits.ALL)
-@TypeHint(typeNames = { "io.kubernetes.client.extended.controller.Controller" }, access = AccessBits.ALL)
-@TypeHint(typeNames = { "io.kubernetes.client.informer.cache.ProcessorListener" }, access = AccessBits.ALL)
-@TypeHint(typeNames = { "io.kubernetes.client.custom.IntOrString" }, access = AccessBits.ALL)
-@TypeHint(typeNames = { "io.kubernetes.client.custom.IntOrString$IntOrStringAdapter" }, access = AccessBits.ALL)
+@NativeHint(trigger = io.kubernetes.client.informer.cache.ProcessorListener.class,
+		options = { "-H:+AddAllCharsets", "--enable-all-security-services", "--enable-https", "--enable-http" },
+		types = { @TypeHint(typeNames = { "io.kubernetes.client.util.Watch$Response" }, access = AccessBits.ALL),
+				@TypeHint(typeNames = { "io.kubernetes.client.util.generic.GenericKubernetesApi$StatusPatch" },
+						access = AccessBits.ALL),
+				@TypeHint(typeNames = { "io.kubernetes.client.custom.Quantity$QuantityAdapter" },
+						access = AccessBits.ALL),
+				@TypeHint(typeNames = { "io.kubernetes.client.extended.controller.Controller" },
+						access = AccessBits.ALL),
+				@TypeHint(typeNames = { "io.kubernetes.client.informer.cache.ProcessorListener" },
+						access = AccessBits.ALL),
+				@TypeHint(typeNames = { "io.kubernetes.client.custom.IntOrString" }, access = AccessBits.ALL),
+				@TypeHint(typeNames = { "io.kubernetes.client.custom.IntOrString$IntOrStringAdapter" },
+						access = AccessBits.ALL) })
 public class KubernetesHints implements NativeConfiguration {
+
+	@SneakyThrows
+	private static void log(String message) {
+		var file = new File(new File(System.getenv("HOME"), "Desktop"), "out.txt");
+		try (var fin = new BufferedWriter(new FileWriter(file, true))) {
+			fin.write(message);
+		}
+	}
 
 	@Override
 	public List<HintDeclaration> computeHints(TypeSystem typeSystem) {
-
-		System.out.println("beginning the contribution of the Kubernetes hints.");
+		log("beginning the contribution of the Kubernetes hints.");
 		List<String> models = typeSystem.findTypesAnnotated("Lio/swagger/annotations/ApiModel;", true);
 		List<String> adapters = typeSystem.findTypesAnnotated("Lcom/google/gson/annotations/JsonAdapter;", true);
 		List<String> rl = new ArrayList<String>();
 		rl.addAll(adapters);
 		rl.addAll(models);
-
-		List<HintDeclaration> ops = Stream
-				.of("-H:+AddAllCharsets", "--enable-all-security-services", "--enable-https", "--enable-http")
-				.map(op -> {
-					HintDeclaration hd = new HintDeclaration();
-					hd.addOption(op);
-					return hd;
-				}).collect(Collectors.toList());
-
-		List<HintDeclaration> reflection = new HashSet<>(rl).stream().filter(clzz -> clzz.startsWith("io/kubernetes"))
-				.map(clazzName -> {
-					HintDeclaration hd = new HintDeclaration();
-					hd.addDependantType(clazzName.replace("/", "."), new AccessDescriptor(AccessBits.ALL));
-					return hd;
-				}).collect(Collectors.toList());
-
-		List<HintDeclaration> merge = new ArrayList<>();
-		merge.addAll(ops);
-		merge.addAll(reflection);
-		return merge;
+		return new HashSet<>(rl).stream().filter(clzz -> clzz.startsWith("io/kubernetes")).map(clazzName -> {
+			var hd = new HintDeclaration();
+			hd.addDependantType(clazzName.replace("/", "."), new AccessDescriptor(AccessBits.ALL));
+			return hd;
+		}).collect(Collectors.toList());
 	}
 
 }
