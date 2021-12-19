@@ -2,7 +2,7 @@ package io.kubernetes.nativex;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.swagger.annotations.ApiModel;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.aot.context.bootstrap.generator.infrastructure.nativex.NativeConfigurationRegistry;
 import org.springframework.nativex.AotOptions;
@@ -47,7 +47,7 @@ import static org.springframework.nativex.hint.TypeAccess.*;
 								"io.kubernetes.client.util.Watch$Response" }) //
 		}//
 )
-@Log4j2
+@Slf4j
 public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 
 	@Override
