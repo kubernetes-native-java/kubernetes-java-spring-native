@@ -2,7 +2,6 @@ package io.kubernetes.nativex;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.swagger.annotations.ApiModel;
-import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.aot.context.bootstrap.generator.infrastructure.nativex.NativeConfigurationRegistry;
 import org.springframework.nativex.AotOptions;
@@ -47,7 +46,6 @@ import static org.springframework.nativex.hint.TypeAccess.*;
 								"io.kubernetes.client.util.Watch$Response" }) //
 		}//
 )
-@Slf4j
 public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 
 	@Override
@@ -59,9 +57,7 @@ public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 		all.addAll(jsonAdapters);
 		all.addAll(apiModels);
 		all.forEach(clzz -> {
-			if (log.isDebugEnabled()) {
-				log.debug(clzz.getName());
-			}
+		
 			registry.reflection().forType(clzz).withAccess(values()).build();
 		});
 	}
