@@ -43,7 +43,8 @@ import static org.springframework.nativex.hint.TypeAccess.*;
 								"io.kubernetes.client.custom.Quantity$QuantityAdapter",
 								"io.kubernetes.client.custom.IntOrString$IntOrStringAdapter",
 								"io.kubernetes.client.util.generic.GenericKubernetesApi$StatusPatch",
-								"io.kubernetes.client.util.Watch$Response" }) //
+								"io.kubernetes.client.util.Watch$Response",
+								"io.kubernetes.client.custom.V1Patch$V1PatchAdapter" }) //
 		}//
 )
 public class KubernetesApiNativeConfiguration implements NativeConfiguration {
@@ -57,7 +58,7 @@ public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 		all.addAll(jsonAdapters);
 		all.addAll(apiModels);
 		all.forEach(clzz -> {
-		
+
 			registry.reflection().forType(clzz).withAccess(values()).build();
 		});
 	}
