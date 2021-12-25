@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.kubernetesnativejava</groupId>
-        <artifactId>kubernetes-native-java-spring-native-parent</artifactId>
+        <artifactId>nativex-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
     </parent>
     <packaging>jar</packaging>
     <artifactId>kubernetes-java-spring-native</artifactId>
