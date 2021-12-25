@@ -10,8 +10,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
-    <groupId>booternetes</groupId>
-    <artifactId>spring-native-kubernetes</artifactId>
+    <groupId>io.kubernetesnativejava</groupId>
+    <artifactId>kubernetes-java-spring-native</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <properties>
         <artifactory-maven-plugin.version>3.2.3</artifactory-maven-plugin.version>
@@ -19,11 +19,12 @@
         <repackage.classifier/>
         <spring-native.version>0.11.0 </spring-native.version>
     </properties>
-    <dependencies><dependency>
-        <groupId>org.reflections</groupId>
-        <artifactId>reflections</artifactId>
-        <version>0.9.11</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
