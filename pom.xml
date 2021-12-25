@@ -4,26 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>io.kubernetesnativejava</groupId>
+        <artifactId>kubernetes-native-java-spring-native-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
-    <groupId>io.kubernetesnativejava</groupId>
     <artifactId>kubernetes-java-spring-native</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <properties>
-        <artifactory-maven-plugin.version>3.2.3</artifactory-maven-plugin.version>
-        <java.version>11</java.version>
-        <repackage.classifier/>
-        <spring-native.version>0.11.0 </spring-native.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -32,17 +22,14 @@
         <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-native</artifactId>
-            <version>${spring-native.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-aot</artifactId>
-            <version>${spring-native.version}</version>
         </dependency>
         <dependency>
             <groupId>io.kubernetes</groupId>
             <artifactId>client-java-spring-integration</artifactId>
-            <version>14.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -56,13 +43,11 @@
         </dependency>
     </dependencies>
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.jfrog.buildinfo</groupId>
                 <artifactId>artifactory-maven-plugin</artifactId>
-                <version>${artifactory-maven-plugin.version}</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -72,8 +57,7 @@
                         </goals>
                         <configuration>
                             <deployProperties>
-                                <build.vcsRevision>
-                                    {{GITHUB_SHA}}
+                                <build.vcsRevision>{{TRAVIS_COMMIT}}
                                 </build.vcsRevision>
                             </deployProperties>
                             <publisher>
@@ -87,36 +71,25 @@
                                 </snapshotRepoKey>
                             </publisher>
                             <buildInfo>
-                                <agentName>Github Actions</agentName>
-                                <buildNumber>{{GITHUB_RUN_ID}}
+                                <agentName>Travis CI</agentName>
+                                <buildNumber>{{TRAVIS_BUILD_NUMBER}}
                                 </buildNumber>
                                 <buildUrl>
-                                    http://travis-ci.org/{{GITHUB_REPOSITORY}}/builds/{{GITHUB_RUN_ID}}
+                                    http://travis-ci.org/{{TRAVIS_REPO_SLUG}}/builds/{{TRAVIS_BUILD_ID}}
                                 </buildUrl>
                                 <principal>{{USER}}</principal>
-                                <vcsRevision>{{GITHUB_SHA}}</vcsRevision>
+                                <vcsRevision>{{TRAVIS_COMMIT}}</vcsRevision>
                             </buildInfo>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>io.spring.javaformat</groupId>
-                <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>0.0.19</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <inherited>true</inherited>
-                        <goals>
-                            <goal>validate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
+
+
     </build>
 
+    <!--  -->
     <repositories>
         <repository>
             <snapshots>
@@ -157,4 +130,7 @@
             </url>
         </pluginRepository>
     </pluginRepositories>
+    <!--  -->
+
+
 </project>

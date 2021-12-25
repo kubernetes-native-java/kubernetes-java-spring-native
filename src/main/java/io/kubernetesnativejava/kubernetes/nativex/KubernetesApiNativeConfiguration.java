@@ -1,4 +1,4 @@
-package io.kubernetes.nativex;
+package io.kubernetesnativejava.kubernetes.nativex;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.swagger.annotations.ApiModel;
