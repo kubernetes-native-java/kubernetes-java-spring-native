@@ -1,4 +1,4 @@
-# Spring Native Kubernetes
+# Kubernetes Java Client and Spring Native
 
 Provides Spring Native hints and configuration for the official Kubernetes Java client. Ideally, this will get merged into the official Kubernetes Java client itself one day...
 
