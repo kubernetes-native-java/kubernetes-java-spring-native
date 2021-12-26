@@ -29,7 +29,7 @@ import static org.springframework.nativex.hint.TypeAccess.*;
  *
  * @author Josh Long
  * @author Dave Syer
-	* @author Christian Tzolov
+ * @author Christian Tzolov
  */
 
 @NativeHint(//
@@ -58,10 +58,7 @@ public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 		Set<Class<?>> all = new HashSet<>();
 		all.addAll(jsonAdapters);
 		all.addAll(apiModels);
-		all.forEach(clzz -> {
-
-			registry.reflection().forType(clzz).withAccess(values()).build();
-		});
+		all.forEach(clzz -> registry.reflection().forType(clzz).withAccess(values()).build());
 	}
 
 }
