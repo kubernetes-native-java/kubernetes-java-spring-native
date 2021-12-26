@@ -42,14 +42,11 @@ import static org.springframework.nativex.hint.TypeAccess.*;
 		types = { //
 				@TypeHint( //
 						access = { DECLARED_CLASSES, DECLARED_CONSTRUCTORS, DECLARED_FIELDS, DECLARED_METHODS }, //
-						typeNames = { "io.kubernetes.client.informer.cache.ProcessorListener",
+						typeNames = { //
+								"io.kubernetes.client.informer.cache.ProcessorListener",
 								"io.kubernetes.client.extended.controller.Controller",
-								"io.kubernetes.client.custom.IntOrString",
-								"io.kubernetes.client.custom.Quantity$QuantityAdapter",
-								"io.kubernetes.client.custom.IntOrString$IntOrStringAdapter",
 								"io.kubernetes.client.util.generic.GenericKubernetesApi$StatusPatch",
-								"io.kubernetes.client.util.Watch$Response",
-						/* "io.kubernetes.client.custom.V1Patch$V1PatchAdapter" */ }) //
+								"io.kubernetes.client.util.Watch$Response", }) //
 		}//
 )
 @Slf4j
