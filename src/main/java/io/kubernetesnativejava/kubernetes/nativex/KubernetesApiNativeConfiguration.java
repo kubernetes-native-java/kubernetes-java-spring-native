@@ -29,6 +29,7 @@ import static org.springframework.nativex.hint.TypeAccess.*;
  *
  * @author Josh Long
  * @author Dave Syer
+	* @author Christian Tzolov
  */
 
 @NativeHint(//
