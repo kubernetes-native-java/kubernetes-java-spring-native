@@ -55,6 +55,17 @@ import static org.springframework.nativex.hint.TypeAccess.*;
 @Slf4j
 public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 
+	@Override
+	public void computeHints(NativeConfigurationRegistry registry, AotOptions aotOptions) {
+		Reflections reflections = new Reflections("io.kubernetes");
+		Set<Class<?>> apiModels = reflections.getTypesAnnotatedWith(ApiModel.class);
+		Set<Class<?>> jsonAdapters = findJsonAdapters(reflections);
+		Set<Class<?>> all = new HashSet<>();
+		all.addAll(jsonAdapters);
+		all.addAll(apiModels);
+		all.forEach(clzz -> registry.reflection().forType(clzz).withAccess(values()).build());
+	}
+
 	@SneakyThrows
 	private <R extends Annotation> Set<Class<?>> findJsonAdapters(Reflections reflections) {
 		var jsonAdapterClass = JsonAdapter.class;
@@ -71,17 +82,6 @@ public class KubernetesApiNativeConfiguration implements NativeConfiguration {
 
 			return list.stream();
 		}).collect(Collectors.toSet());
-	}
-
-	@Override
-	public void computeHints(NativeConfigurationRegistry registry, AotOptions aotOptions) {
-		Reflections reflections = new Reflections("io.kubernetes");
-		Set<Class<?>> apiModels = reflections.getTypesAnnotatedWith(ApiModel.class);
-		Set<Class<?>> jsonAdapters = findJsonAdapters(reflections);
-		Set<Class<?>> all = new HashSet<>();
-		all.addAll(jsonAdapters);
-		all.addAll(apiModels);
-		all.forEach(clzz -> registry.reflection().forType(clzz).withAccess(values()).build());
 	}
 
 }
