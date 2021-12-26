@@ -2,6 +2,8 @@ package io.kubernetesnativejava.kubernetes.nativex;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.swagger.annotations.ApiModel;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.aot.context.bootstrap.generator.infrastructure.nativex.NativeConfigurationRegistry;
 import org.springframework.nativex.AotOptions;
@@ -9,8 +11,10 @@ import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 import org.springframework.nativex.type.NativeConfiguration;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.springframework.nativex.hint.TypeAccess.*;
 
@@ -45,16 +49,35 @@ import static org.springframework.nativex.hint.TypeAccess.*;
 								"io.kubernetes.client.custom.IntOrString$IntOrStringAdapter",
 								"io.kubernetes.client.util.generic.GenericKubernetesApi$StatusPatch",
 								"io.kubernetes.client.util.Watch$Response",
-								"io.kubernetes.client.custom.V1Patch$V1PatchAdapter" }) //
+						/* "io.kubernetes.client.custom.V1Patch$V1PatchAdapter" */ }) //
 		}//
 )
+@Slf4j
 public class KubernetesApiNativeConfiguration implements NativeConfiguration {
+
+	@SneakyThrows
+	private <R extends Annotation> Set<Class<?>> findJsonAdapters(Reflections reflections) {
+		var jsonAdapterClass = JsonAdapter.class;
+		return reflections.getTypesAnnotatedWith(jsonAdapterClass).stream().flatMap(clazz -> {
+			var list = new HashSet<Class<?>>();
+			var annotation = clazz.getAnnotation(jsonAdapterClass);
+			if (null != annotation) {
+				list.add(annotation.value());
+			}
+			list.add(clazz);
+
+			// debug output
+			list.forEach(c -> log.info("found @JsonAdapter type: " + c.getName()));
+
+			return list.stream();
+		}).collect(Collectors.toSet());
+	}
 
 	@Override
 	public void computeHints(NativeConfigurationRegistry registry, AotOptions aotOptions) {
 		Reflections reflections = new Reflections("io.kubernetes");
 		Set<Class<?>> apiModels = reflections.getTypesAnnotatedWith(ApiModel.class);
-		Set<Class<?>> jsonAdapters = reflections.getTypesAnnotatedWith(JsonAdapter.class);
+		Set<Class<?>> jsonAdapters = findJsonAdapters(reflections);
 		Set<Class<?>> all = new HashSet<>();
 		all.addAll(jsonAdapters);
 		all.addAll(apiModels);
