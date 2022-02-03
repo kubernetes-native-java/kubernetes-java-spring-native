@@ -31,4 +31,4 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        run: mvn -f pom.xml clean package deploy
+        run: mvn -U -f pom.xml clean package deploy
